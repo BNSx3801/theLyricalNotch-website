@@ -43,3 +43,4 @@ next-env.d.ts
 # originals kept out of the repo (DMG ships via GitHub Releases, demo is re-encoded into public/assets)
 *.dmg
 /theLyricalNotch-demo.mp4
+/v3.mp4

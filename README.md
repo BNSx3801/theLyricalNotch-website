@@ -23,10 +23,12 @@ The DMG is served from GitHub Releases on `BNSx3801/boring.notch`. The button po
 
 ## Media
 
-`public/assets/demo.mp4` is a 1280×668 H.264 re-encode of `theLyricalNotch-demo.mp4` (kept out of git) with the macOS screen-recording toolbar cropped off the bottom. Re-make it with:
+`public/assets/demo.mp4` is a 1280×816 H.264 re-encode of the raw recording `v3.mp4` (1920×1080, kept out of git). The crop matches the laptop screen's aspect ratio, centres on the Spotify window, and drops the macOS screen-recording toolbar at the bottom. Re-make it with:
 
 ```bash
-ffmpeg -i theLyricalNotch-demo.mp4 -vf "crop=1440:752:0:0,scale=1280:-2,fps=30" -c:v libx264 -preset slow \
-  -crf 25 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 96k public/assets/demo.mp4
-ffmpeg -ss 3 -i theLyricalNotch-demo.mp4 -frames:v 1 -vf "crop=1440:752:0:0,scale=1280:-2" -q:v 4 public/assets/demo-poster.jpg
+ffmpeg -i v3.mp4 -vf "crop=1568:1000:176:0,scale=1280:-2,fps=30" -c:v libx264 -preset slow \
+  -crf 24 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 96k public/assets/demo.mp4
+ffmpeg -ss 8 -i v3.mp4 -frames:v 1 -vf "crop=1568:1000:176:0,scale=1280:-2" -q:v 4 public/assets/demo-poster.jpg
 ```
+
+The encoded video and poster are committed, so a deploy serves them straight from `public/`; only the raw sources are ignored.
