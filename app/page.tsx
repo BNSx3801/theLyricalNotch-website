@@ -9,7 +9,7 @@ export default function Home() {
       <Nav />
 
       <section className="relative flex flex-1 flex-col items-center gap-12 px-5 pt-10 pb-12 xl:block xl:p-0">
-        <div className="hero-copy w-full max-w-[520px] text-left xl:absolute xl:top-[438.5px] xl:left-[85px] xl:w-auto xl:max-w-none">
+        <div className="hero-copy order-2 w-full max-w-[520px] text-left xl:absolute xl:order-none xl:top-[438.5px] xl:left-[85px] xl:w-auto xl:max-w-none">
           <h1 className="text-[26px] leading-[32px] font-bold">The Lyrical Notch</h1>
           <p className="mt-[6px] text-[18px] leading-[22px] text-ink-muted">
             A &apos;<em className="font-bold italic">lyrical addition</em>&apos; to the ever-greatest{" "}
