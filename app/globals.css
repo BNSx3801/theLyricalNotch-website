@@ -1,28 +1,25 @@
 @import "tailwindcss";
 
-/* ---------- Theme tokens (light = the Paper design, dark = inverted neutrals) ---------- */
+/* ---------- Theme tokens (Frame-01: pure black ground, white ink, Spotify-blue accent) ---------- */
 
 :root {
-  --paper: #f2f3f4;
-  --ink: #000000;
-  --pill-bg: #181d25;
-  --pill-fg: #ffffff;
-  color-scheme: light;
-}
-
-[data-theme="dark"] {
-  --paper: #121314;
-  --ink: #f2f3f4;
-  --pill-bg: #f2f3f4;
-  --pill-fg: #181d25;
+  --paper: #000000;
+  --ink: #ffffff;
+  --ink-muted: rgb(255 255 255 / 0.7);
+  --accent: #2897ff;
+  --accent-hover: #1f7fdb;
+  --bezel: #353c41;
+  --bezel-side: #697b8c;
   color-scheme: dark;
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-ink: var(--ink);
-  --color-pill-bg: var(--pill-bg);
-  --color-pill-fg: var(--pill-fg);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-bezel: var(--bezel);
   --font-sans: -apple-system, "SF Pro", var(--font-inter), system-ui, sans-serif;
 }
 
@@ -40,9 +37,10 @@ body {
   font-synthesis: style;
 }
 
-/* ---------- Text links: underline grows left → right on hover ---------- */
+/* ---------- Text links: underline grows left → right on hover (same as portfolio-v2) ---------- */
 
 .link-underline {
+  padding-bottom: 3px;
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
   transition: background-size 0.3s;
 }
@@ -51,39 +49,59 @@ body {
   background-size: 100% 1px;
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Tilted demo video ----------
+   The 16:9 video, rotated about its centre so the right edge comes toward the viewer and the
+   left edge recedes, as in Frame-01's "Tilted video frame". Hovering eases it flat in place. */
 
-.button-ink {
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+.tilt-stage {
+  --tilt: -38deg;
+  --frame-w: min(740px, 88vw);
+  width: var(--frame-w);
+  perspective: 1000px;
 }
-.button-ink:hover {
-  transform: translateY(-1px);
+@media (min-width: 1280px) {
+  .tilt-stage {
+    --frame-w: 740px;
+    position: absolute;
+    top: 50%;
+    /* Centre at x≈944 so the near (right) edge of the tilted frame lands at ≈1323 like the design. */
+    left: 574px;
+    translate: 0 -50%;
+  }
 }
-.button-ink:active {
-  transform: scale(0.97);
+@media (max-width: 1279px) {
+  .tilt-stage {
+    --tilt: -22deg;
+  }
 }
 
-/* The app tile is near-black artwork; flip it on the dark ground. */
-[data-theme="dark"] .logo-tile {
-  filter: invert(1);
+.tilt-frame {
+  transform: rotateY(var(--tilt));
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.22, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.tilt-stage:hover .tilt-frame,
+.tilt-stage:focus-within .tilt-frame {
+  transform: rotateY(0deg);
 }
 
-/* ---------- Theme sweep (View Transitions) ---------- */
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-new(root) {
-  will-change: clip-path;
+.tilt-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #000;
+  backface-visibility: hidden;
 }
 
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
   .link-underline,
-  .button-ink {
+  .tilt-frame {
     transition: none;
   }
 }

@@ -19,6 +19,19 @@ export function DemoVideo({ className, style }: { className?: string; style?: CS
     });
   }, [muted]);
 
+  // Belt and braces for the `loop` attribute: Safari sometimes stops at the end of a looping
+  // video instead of wrapping, so restart it ourselves whenever playback reports an end.
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    const restart = () => {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    };
+    video.addEventListener("ended", restart);
+    return () => video.removeEventListener("ended", restart);
+  }, []);
+
   return (
     <video
       ref={ref}
@@ -30,7 +43,8 @@ export function DemoVideo({ className, style }: { className?: string; style?: CS
       muted
       loop
       playsInline
-      aria-label="Demo of The Lyrical Notch showing synced lyrics inside the MacBook notch"
+      preload="auto"
+      aria-label="Demo of The Lyrical Notch showing synced lyrics in the MacBook notch"
     />
   );
 }

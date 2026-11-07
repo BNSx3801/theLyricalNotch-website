@@ -1,20 +1,19 @@
 "use client";
 
 import { setDemoMuted, useDemoMuted } from "@/lib/demoSound";
-import { SpeakerIcon } from "./icons";
-import { iconButton } from "./iconButton";
 
+// Label reads the current state: the demo starts muted (the only way autoplay is allowed),
+// so the page loads with "Sound Off" and flips to "Sound On" once the user unmutes.
 export function SoundToggle() {
   const muted = useDemoMuted();
   return (
     <button
       type="button"
       aria-pressed={!muted}
-      aria-label={muted ? "Unmute the demo" : "Mute the demo"}
       onClick={() => setDemoMuted(!muted)}
-      className={iconButton}
+      className={`link-underline cursor-pointer ${muted ? "text-ink-muted" : "text-ink"}`}
     >
-      <SpeakerIcon muted={muted} className="h-[22px] w-[22px]" />
+      {muted ? "Sound Off" : "Sound On"}
     </button>
   );
 }
